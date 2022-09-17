@@ -1,2 +1,3 @@
-# terraform-azurerm-lz-hub
-Terraform modules for a hub VNET in an Azure Landing Zone
+# Azure Landing Zone Hub
+
+This module provisions a Hub VNET in an Azure Landing Zone.
