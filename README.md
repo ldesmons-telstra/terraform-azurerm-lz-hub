@@ -1,5 +1,6 @@
 # Azure Landing Zone Hub
 
+<<<<<<< HEAD
 This module provisions a **hub vnet** in an Azure Landing Zone.
 
 It is intented to be used in conjonction with the **lz-spoke module** which can be found here : https://registry.terraform.io/modules/ldesmons-telstra/lz-spoke/azurerm/latest
@@ -50,3 +51,6 @@ module "vnet_hub" {
 
 
 
+=======
+This module provisions a Hub vnet in an Azure Landing Zone.
+>>>>>>> 46552a4bb8f3d831abfbae1a6adab44944506166
