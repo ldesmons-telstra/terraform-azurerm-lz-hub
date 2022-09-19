@@ -4,6 +4,8 @@ This module provisions a **hub vnet** in an Azure Landing Zone.
 
 It is intented to be used in conjonction with the **lz-spoke module** which can be found here : https://registry.terraform.io/modules/ldesmons-telstra/lz-spoke/azurerm/latest
 
+![image](https://user-images.githubusercontent.com/108506349/190935277-9483fb13-f13e-405a-9b62-98819cab1e64.png)
+
 ## Features 
 
 - creates a **hub vnet** with optional capabilities like firewall, bastion... 
