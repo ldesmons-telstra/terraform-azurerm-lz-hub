@@ -47,7 +47,9 @@ module "vnet_hub" {
   provision_firewall                  = false   # do not create firewall
   provision_bastion                   = false   # do not create bastion
 
-  tags                                = var.tags
+  tags = {
+    "environment" : "dev"
+  }
 }
 ```
 
@@ -86,7 +88,9 @@ module "vnet_hub" {
 
   provision_bastion                   = false   # do not create bastion
 
-  tags                                = var.tags
+  tags = {
+    "environment" : "dev"
+  }
 }
 ```
 
@@ -127,6 +131,8 @@ module "vnet_hub" {
   bastion_public_ip_name              = "my-bastion-pip"
   bastion_subnet_address_prefixes     = ["10.10.31.64/26"]
 
-  tags                                = var.tags
+  tags = {
+    "environment" : "dev"
+  }
 }
 ```
