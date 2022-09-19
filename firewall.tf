@@ -1,22 +1,26 @@
+locals {
+  firewall_count = var.provision_firewall ? 1 : 0
+}
+
 # Create the public ip for Azure Firewall
 resource "azurerm_public_ip" "firewall_pip" {
-  count               = var.firewall != null ? 1 : 0
-  name                = var.firewall.ip_configuration.name
+  count               = local.firewall_count
+  name                = var.firewall_public_ip_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  allocation_method   = var.firewall.ip_configuration.allocation_method
-  sku                 = var.firewall.ip_configuration.sku
+  allocation_method   = var.firewall_public_ip_allocation_method
+  sku                 = var.firewall_public_ip_sku
   tags                = var.tags
 }
 
 # Create the Azure Firewall
 resource "azurerm_firewall" "firewall" {
-  count               = var.firewall != null ? 1 : 0
-  name                = var.firewall.name
+  count               = local.firewall_count
+  name                = var.firewall_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  sku_name            = var.firewall.sku_name
-  sku_tier            = var.firewall.sku_tier
+  sku_name            = var.firewall_sku_name
+  sku_tier            = var.firewall_sku_tier
 
   ip_configuration {
     name                 = "ip-configuration"

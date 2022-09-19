@@ -1,149 +1,219 @@
-# general variables
+# general 
 variable "location" {
   type        = string
-  description = "Location where the resources are going to be created."
+  description = "The location where the resources are going to be created."
 }
 
 variable "resource_group_name" {
   type        = string
-  description = "Name of the resource group."
+  description = "The name of the existing resource group."
 }
 
-# VNET variables
+# vnet gateway
 variable "name" {
   type        = string
-  description = "Name of the VNET."
+  description = "The name of the vnet."
 }
 
 variable "address_space" {
   type        = list(string)
-  description = "Address space of the VNET."
+  description = "The address space of the VNET."
 }
 
-# VNET gateway variables
-variable "gateway" {
-  type = object({
-    name                    = string,
-    gateway_type            = string
-    vpn_type                = string,
-    sku                     = string,
-    generation              = string,
-    configure_bgp           = bool,
-    active_active           = bool,
-    subnet_address_prefixes = list(string)
+# 
+# vnet gateway variables
+variable "vnet_gateway_name" {
+  type        = string
+  description = "The name of the vnet gateway."
+}
 
-    ip_configuration = object({
-      name              = string,
-      allocation_method = string,
-      sku               = string
-    })
+variable "vnet_gateway_type" {
+  type        = string
+  default     = "Vpn"
+  description = "(Optional) The type of the vnet gateway."
+}
 
-    lng_configuration = object({
-      name            = string,
-      gateway_address = string,
-      address_space   = list(string)
-    })
+variable "vnet_gateway_vpn_type" {
+  type        = string
+  default     = "RouteBased"
+  description = "(Optional) The vpn type of the vnet gateway."
+}
 
-    connection_configuration = object({
-      name            = string,
-      connection_type = string,
-      shared_key      = string
-    })
+variable "vnet_gateway_sku" {
+  type        = string
+  default     = "VpnGw1"
+  description = "(Optional) The sku of the vnet gateway."
+}
 
-  })
+variable "vnet_gateway_generation" {
+  type        = string
+  default     = "Generation1"
+  description = "(Optional) The generation of the vnet gateway."
+}
 
-  description = <<EOT
-    The configuration for the VNET Gateway.
+variable "vnet_gateway_configure_bgp" {
+  type        = bool
+  default     = false
+  description = "(Optional) Whether to configure the BGP of the vnet gateway."
+}
 
-      name : the name of the gateway.
-      gateway_type : the type of the gateway.
-      vpn_type = the type of the VPN.
-      sku : the SKU of the gateway.
-      generation : the generation of the gateway.
-      configure_bgp : true to configure the BGP, false otherwise.
-      active_active : true if active-active, false otherwise.
-      subnet_address_prefixes : the list of address prefixes for the gateway subnet.
+variable "vnet_gateway_active_active" {
+  type        = bool
+  default     = false
+  description = "(Optional) Whether the vnet gateway is active-active."
+}
 
-      ip_configuration : the public IP configuration of the gateway.
-        name : the name of the public IP.
-        allocation_method : the allocation method of the public IP.
-        sku : the sku of the public IP
+variable "vnet_gateway_address_prefixes" {
+  type        = list(string)
+  description = "The address prefixes of the vnet gateway."
+}
 
-      lng_configuration : the configuration of the Local Network Gateway.
-        name : the name of the local network gateway.
-        gateway_address : the public IP of the local network gateway.
-        address_space : the list of address spaces for the local network gateway.
+variable "vnet_gateway_public_ip_name" {
+  type        = string
+  description = "The name of the public ip of the vnet gateway."
+}
 
-      connection_configuration : the configuration of the connection between the VNET gateway and the local network gateway.
-        name : the name of the connection.
-        connection_type : the type of connection.
-        shared_key : the shared key to use from the client side to establish the connection.
-  EOT
+variable "vnet_gateway_public_ip_allocation_method" {
+  type        = string
+  default     = "Static"
+  description = "(Optional) The allocation method of the public ip of the vnet gateway."
+}
+
+variable "vnet_gateway_public_ip_sku" {
+  type        = string
+  default     = "Standard"
+  description = "(Optional) The sku of the public ip of the vnet gateway."
+}
+
+# local network gateway
+variable "local_network_gateway_name" {
+  type        = string
+  description = "The name of the local network gateway."
+}
+
+variable "local_network_gateway_address" {
+  type        = string
+  description = "The address of the local network gateway."
+}
+
+variable "local_network_gateway_address_space" {
+  type        = list(string)
+  description = "The address space of the local network gateway."
+}
+
+# gateway connection
+variable "gateway_connection_name" {
+  type        = string
+  description = "The name of the gateway connection."
+}
+
+variable "gateway_connection_type" {
+  type        = string
+  default     = "IPsec"
+  description = "The type of the gateway connection."
+}
+
+variable "gateway_connection_shared_key" {
+  type        = string
+  sensitive   = true
+  description = "The shared key of the gateway connection."
 }
 
 # firewall (optional)
-variable "firewall" {
-  type = object({
-    name                    = string,
-    sku_name                = string,
-    sku_tier                = string,
-    subnet_address_prefixes = list(string)
+variable "provision_firewall" {
+  type        = bool
+  default     = true
+  description = "(Optional) The firewall will be provisioned only if this value is set to true (default)."
+}
 
-    ip_configuration = object({
-      name              = string,
-      allocation_method = string,
-      sku               = string
-    })
-  })
+variable "firewall_name" {
+  type        = string
+  default     = ""
+  description = "(Optional) The name of the firewall. Mandatory if provision_firewall is set to true."
+}
 
-  default     = null
-  description = <<EOT
-    The configuration for the Firewall.
+variable "firewall_sku_name" {
+  type        = string
+  default     = "AZFW_VNet"
+  description = "(Optional) The sku name of the firewall."
+}
 
-    name : the name of the firewall.
-    sku_name : the name of the SKU to use for the firewall.
-    sku_tier : the SKU tier to use for the firewall.
-    subnet_address_prefixes : list of address prefixes for the firewall.
-    
-    ip_configuration : the public IP configuration of the firewall.
-      name : the name of the public IP.
-      allocation_method : the allocation method of the public IP.
-      sku : the sku of the public IP
-  EOT
+variable "firewall_sku_tier" {
+  type        = string
+  default     = "Standard"
+  description = "(Optional) The sku tier of the firewall."
+}
+
+variable "firewall_subnet_address_prefixes" {
+  type        = list(string)
+  default     = []
+  description = "(Optional) The address prefixes of the firewall. Mandatory if provision_firewall is set to true."
+}
+
+variable "firewall_public_ip_name" {
+  type        = string
+  default     = ""
+  description = "(Optional) The name of the public ip of the firewall. Mandatory if provision_firewall is set to true."
+}
+
+variable "firewall_public_ip_allocation_method" {
+  type        = string
+  default     = "Static"
+  description = "(Optional) The allocation method of the public ip of the firewall."
+}
+
+variable "firewall_public_ip_sku" {
+  type        = string
+  default     = "Standard"
+  description = "(Optional) The sku of the public ip of the firewall."
 }
 
 # bastion (optional)
-variable "bastion" {
-  type = object({
-    name                    = string,
-    scale_units             = number,
-    subnet_address_prefixes = list(string)
+variable "provision_bastion" {
+  type        = bool
+  default     = true
+  description = "(Optional) The bastion will be provisioned only if this value is set to true (default)."
+}
 
-    ip_configuration = object({
-      name              = string,
-      allocation_method = string,
-      sku               = string
-    })
-  })
+variable "bastion_name" {
+  type        = string
+  default     = ""
+  description = "(Optional) The name of the bastion. Mandatory if provision_bastion is set to true."
+}
 
-  default     = null
-  description = <<EOT
-    The configuration for the Bastion.
+variable "bastion_scale_units" {
+  type        = number
+  default     = 2
+  description = "(Optional) The scale units of the bastion."
+}
 
-    name : the name of the bastion.
-    scale_units : the scale units of the bastion.
-    subnet_address_prefixes : list of address prefixes for the bastion.
-    
-    ip_configuration : the public IP configuration of the bastion.
-      name : the name of the public IP.
-      allocation_method : the allocation method of the public IP.
-      sku : the sku of the public IP
-  EOT
+variable "bastion_subnet_address_prefixes" {
+  type        = list(string)
+  default     = []
+  description = "(Optional) The address prefixes of the bastion. Mandatory if provision_bastion is set to true."
+}
+
+variable "bastion_public_ip_name" {
+  type        = string
+  default     = ""
+  description = "(Optional) The name of the public ip of the bastion. Mandatory if provision_bastion is set to true."
+}
+
+variable "bastion_public_ip_allocation_method" {
+  type        = string
+  default     = "Static"
+  description = "(Optional) The allocation method of the public ip of the bastion."
+}
+
+variable "bastion_public_ip_sku" {
+  type        = string
+  default     = "Standard"
+  description = "(Optional) The sku of the public ip of the bastion."
 }
 
 # tags (optional)
 variable "tags" {
   type        = map(string)
   default     = {}
-  description = "The tags to apply to all resources."
+  description = "(Optional) The tags to apply to all resources."
 }

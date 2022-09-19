@@ -1,21 +1,25 @@
+locals {
+  bastion_count = var.provision_bastion ? 1 : 0
+}
+
 # Create the public ip for Azure Bastion
 resource "azurerm_public_ip" "bastion_pip" {
-  count               = var.bastion != null ? 1 : 0
-  name                = var.bastion.ip_configuration.name
+  count               = local.bastion_count
+  name                = var.bastion_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  allocation_method   = var.bastion.ip_configuration.allocation_method
-  sku                 = var.bastion.ip_configuration.sku
+  allocation_method   = var.bastion_public_ip_allocation_method
+  sku                 = var.bastion_public_ip_sku
   tags                = var.tags
 }
 
 # Create the Azure Bastion
 resource "azurerm_bastion_host" "bastion" {
-  count               = var.bastion != null ? 1 : 0
-  name                = var.bastion.name
+  count               = local.bastion_count
+  name                = var.bastion_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  scale_units         = var.bastion.scale_units
+  scale_units         = var.bastion_scale_units
 
   ip_configuration {
     name                 = "ip-configuration"

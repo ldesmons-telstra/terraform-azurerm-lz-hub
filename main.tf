@@ -9,7 +9,3 @@ terraform {
   }
 }
 
-# TF Azure Provider 
-provider "azurerm" {
-  features {}
-}
