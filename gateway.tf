@@ -1,4 +1,9 @@
-# Public IP for the VPN Gateway
+/* -----------------------
+   Create the vnet gateway.
+   -----------------------
+*/
+
+# public IP
 resource "azurerm_public_ip" "vnet_gateway_pip" {
   name                = var.vnet_gateway_public_ip_name
   location            = var.location
@@ -8,7 +13,7 @@ resource "azurerm_public_ip" "vnet_gateway_pip" {
   tags                = var.tags
 }
 
-# Virtual Network Gateway
+# vnet gateway
 resource "azurerm_virtual_network_gateway" "vnet_gateway" {
   name                = var.vnet_gateway_name
   location            = var.location
@@ -29,7 +34,7 @@ resource "azurerm_virtual_network_gateway" "vnet_gateway" {
   tags = var.tags
 }
 
-# Local Network Gateway
+# local network gateway
 resource "azurerm_local_network_gateway" "local_gateway" {
   name                = var.local_network_gateway_name
   resource_group_name = var.resource_group_name
@@ -39,7 +44,7 @@ resource "azurerm_local_network_gateway" "local_gateway" {
   tags                = var.tags
 }
 
-# Connection 
+# gateway connection
 resource "azurerm_virtual_network_gateway_connection" "gateway_connection" {
   name                       = var.gateway_connection_name
   location                   = var.location

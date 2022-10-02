@@ -1,8 +1,18 @@
+/* -----------------------
+   Locals.
+   -----------------------
+*/
+
 locals {
   firewall_count = var.provision_firewall ? 1 : 0
 }
 
-# Create the public ip for Azure Firewall
+/* -----------------------
+   Create the firewall (optional).
+   -----------------------
+*/
+
+# public IP
 resource "azurerm_public_ip" "firewall_pip" {
   count               = local.firewall_count
   name                = var.firewall_public_ip_name
@@ -13,7 +23,7 @@ resource "azurerm_public_ip" "firewall_pip" {
   tags                = var.tags
 }
 
-# Create the Azure Firewall
+# firewall
 resource "azurerm_firewall" "firewall" {
   count               = local.firewall_count
   name                = var.firewall_name

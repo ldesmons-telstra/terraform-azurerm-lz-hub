@@ -1,4 +1,8 @@
-# general 
+/* -----------------------
+   General variables (required).
+   -----------------------
+*/
+
 variable "location" {
   type        = string
   description = "The location where the resources are going to be created."
@@ -9,7 +13,11 @@ variable "resource_group_name" {
   description = "The name of the existing resource group."
 }
 
-# vnet gateway
+/* -----------------------
+   Hub vnet variables (required).
+   -----------------------
+*/
+
 variable "name" {
   type        = string
   description = "The name of the vnet."
@@ -20,12 +28,30 @@ variable "address_space" {
   description = "The address space of the VNET."
 }
 
-# 
-# vnet gateway variables
+/* -----------------------
+   Gateway variables (required).
+   -----------------------
+*/
+
 variable "vnet_gateway_name" {
   type        = string
   description = "The name of the vnet gateway."
 }
+
+variable "vnet_gateway_public_ip_name" {
+  type        = string
+  description = "The name of the public ip of the vnet gateway."
+}
+
+variable "vnet_gateway_address_prefixes" {
+  type        = list(string)
+  description = "The address prefixes of the vnet gateway."
+}
+
+/* -----------------------
+   Vnet gateway variables (optional).
+   -----------------------
+*/
 
 variable "vnet_gateway_type" {
   type        = string
@@ -63,16 +89,6 @@ variable "vnet_gateway_active_active" {
   description = "(Optional) Whether the vnet gateway is active-active."
 }
 
-variable "vnet_gateway_address_prefixes" {
-  type        = list(string)
-  description = "The address prefixes of the vnet gateway."
-}
-
-variable "vnet_gateway_public_ip_name" {
-  type        = string
-  description = "The name of the public ip of the vnet gateway."
-}
-
 variable "vnet_gateway_public_ip_allocation_method" {
   type        = string
   default     = "Static"
@@ -85,7 +101,11 @@ variable "vnet_gateway_public_ip_sku" {
   description = "(Optional) The sku of the public ip of the vnet gateway."
 }
 
-# local network gateway
+/* -----------------------
+   Local network gateway variables (required).
+   -----------------------
+*/
+
 variable "local_network_gateway_name" {
   type        = string
   description = "The name of the local network gateway."
@@ -101,29 +121,42 @@ variable "local_network_gateway_address_space" {
   description = "The address space of the local network gateway."
 }
 
-# gateway connection
+/* -----------------------
+   Gateway connection variables (required).
+   -----------------------
+*/
+
 variable "gateway_connection_name" {
   type        = string
   description = "The name of the gateway connection."
 }
 
+/* -----------------------
+   Gateway connection variables (optional).
+   -----------------------
+*/
+
 variable "gateway_connection_type" {
   type        = string
   default     = "IPsec"
-  description = "The type of the gateway connection."
+  description = "(Optional) The type of the gateway connection."
 }
 
 variable "gateway_connection_shared_key" {
   type        = string
   sensitive   = true
-  description = "The shared key of the gateway connection."
+  description = "(Optional) The shared key of the gateway connection."
 }
 
-# firewall (optional)
+/* -----------------------
+   Firewall variables (optional).
+   -----------------------
+*/
+
 variable "provision_firewall" {
   type        = bool
   default     = true
-  description = "(Optional) The firewall will be provisioned only if this value is set to true (default)."
+  description = "(Optional) The firewall will be provisioned only if this value is set to true."
 }
 
 variable "firewall_name" {
@@ -168,7 +201,17 @@ variable "firewall_public_ip_sku" {
   description = "(Optional) The sku of the public ip of the firewall."
 }
 
-# bastion (optional)
+variable "firewall_rules_spoke_subnets_address_space" {
+  type        = list(string)
+  default = []
+  description = "(Optional) The list of address spaces of each spoke subnet. If provisionned, the firewall will establish rules to allow traffic between the address space of the local network gateway and each spoke subnet."
+}
+
+/* -----------------------
+   Bastion variables (optional).
+   -----------------------
+*/
+
 variable "provision_bastion" {
   type        = bool
   default     = true

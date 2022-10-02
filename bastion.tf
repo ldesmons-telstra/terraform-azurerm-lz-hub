@@ -1,8 +1,18 @@
+/* -----------------------
+   Locals.
+   -----------------------
+*/
+
 locals {
   bastion_count = var.provision_bastion ? 1 : 0
 }
 
-# Create the public ip for Azure Bastion
+/* -----------------------
+   Create bastion (optional).
+   -----------------------
+*/
+
+# public IP
 resource "azurerm_public_ip" "bastion_pip" {
   count               = local.bastion_count
   name                = var.bastion_name
@@ -13,7 +23,7 @@ resource "azurerm_public_ip" "bastion_pip" {
   tags                = var.tags
 }
 
-# Create the Azure Bastion
+# bastion
 resource "azurerm_bastion_host" "bastion" {
   count               = local.bastion_count
   name                = var.bastion_name

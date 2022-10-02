@@ -1,3 +1,8 @@
+/* -----------------------
+   Create the vnet.
+   -----------------------
+*/
+
 resource "azurerm_virtual_network" "vnet" {
   name                = var.name
   location            = var.location
@@ -6,6 +11,11 @@ resource "azurerm_virtual_network" "vnet" {
   tags                = var.tags
 }
 
+/* -----------------------
+   Create the vnet gateway subnet.
+   -----------------------
+*/
+
 resource "azurerm_subnet" "gateway_subnet" {
   name                 = "GatewaySubnet"
   resource_group_name  = var.resource_group_name
@@ -13,7 +23,11 @@ resource "azurerm_subnet" "gateway_subnet" {
   address_prefixes     = var.vnet_gateway_address_prefixes
 }
 
-# Firewall Subnet is optional
+/* -----------------------
+   Create the firewall subnet (optional).
+   -----------------------
+*/
+
 resource "azurerm_subnet" "firewall_subnet" {
   count                = local.firewall_count
   name                 = "AzureFirewallSubnet"
@@ -22,7 +36,11 @@ resource "azurerm_subnet" "firewall_subnet" {
   address_prefixes     = var.firewall_subnet_address_prefixes
 }
 
-# Bastion Subnet is optional
+/* -----------------------
+   Create the bastion subnet (optional).
+   -----------------------
+*/
+
 resource "azurerm_subnet" "bastion_subnet" {
   count                = local.bastion_count
   name                 = "AzureBastionSubnet"

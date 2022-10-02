@@ -2,9 +2,11 @@
 
 This module provisions a **hub vnet** in an Azure Landing Zone.
 
-It is intented to be used in conjonction with the **lz-spoke module** which can be found here : https://registry.terraform.io/modules/ldesmons-telstra/lz-spoke/azurerm/latest
+It is intented to be used in conjonction with the following modules :
+ - **lz-spoke module** which can be found here : https://registry.terraform.io/modules/ldesmons-telstra/lz-spoke/azurerm/latest
+ - **lz-association module** which can be found here : https://registry.terraform.io/modules/ldesmons-telstra/lz-association/azurerm/latest
 
-![Telstra - Landing Zone](https://user-images.githubusercontent.com/108506349/190936360-905c5834-e92d-4465-96cc-d31954f0aa36.png)
+![Telstra - Landing Zone (1)](https://user-images.githubusercontent.com/108506349/193437641-95b26822-e1c1-4df2-ab2c-740a511cb4bd.png)
 
 ## Features 
 
@@ -28,7 +30,7 @@ resource "azurerm_resource_group" "rg_hub" {
 
 module "vnet_hub" {
   source  = "ldesmons-telstra/lz-hub/azurerm"
-  version = "1.0.0"
+  version = "1.0.2"
 
   location            = "southeastasia"
   resource_group_name = "my-rg"
@@ -66,7 +68,7 @@ resource "azurerm_resource_group" "rg_hub" {
 
 module "vnet_hub" {
   source  = "ldesmons-telstra/lz-hub/azurerm"
-  version = "1.0.0"
+  version = "1.0.2"
 
   location            = "southeastasia"
   resource_group_name = "my-rg"
@@ -107,7 +109,7 @@ resource "azurerm_resource_group" "rg_hub" {
 
 module "vnet_hub" {
   source  = "ldesmons-telstra/lz-hub/azurerm"
-  version = "1.0.0"
+  version = "1.0.2"
 
   location            = "southeastasia"
   resource_group_name = "my-rg"
