@@ -203,7 +203,7 @@ variable "firewall_public_ip_sku" {
 
 variable "firewall_rules_spoke_subnets_address_space" {
   type        = list(string)
-  default = []
+  default     = []
   description = "(Optional) The list of address spaces of each spoke subnet. If provisionned, the firewall will establish rules to allow traffic between the address space of the local network gateway and each spoke subnet."
 }
 

@@ -15,7 +15,7 @@ locals {
 # public IP
 resource "azurerm_public_ip" "bastion_pip" {
   count               = local.bastion_count
-  name                = var.bastion_name
+  name                = var.bastion_public_ip_name
   resource_group_name = var.resource_group_name
   location            = var.location
   allocation_method   = var.bastion_public_ip_allocation_method
